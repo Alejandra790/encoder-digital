@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Encoder Digital Interactivo</title>
+  <meta name="description" content="Página educativa e interactiva sobre el encoder (codificador digital) de prioridad de 4 entradas y 2 salidas.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Iconos SVG locales (funcionan sin conexión) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="i-chip" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="10" y="10" width="4" height="4" rx="1" fill="currentColor"/></symbol>
+      <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+      <symbol id="i-bits" viewBox="0 0 24 24"><text x="2" y="11" font-size="9" font-family="monospace" fill="currentColor" font-weight="700">01</text><text x="9" y="21" font-size="9" font-family="monospace" fill="currentColor" font-weight="700">10</text></symbol>
+      <symbol id="i-gate" viewBox="0 0 24 24"><path d="M3 8h5M3 16h5M16 12h5M8 5h4a7 7 0 0 1 0 14H8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-keyboard" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+      <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+      <symbol id="i-link" viewBox="0 0 24 24"><path d="M9 15 15 9M8 11l-2 2a4 4 0 0 0 6 6l2-2M16 13l2-2a4 4 0 0 0-6-6l-2 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+      <symbol id="i-interrupt" viewBox="0 0 24 24"><path d="M4 18V6M4 6h5M4 12h9M4 18h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="19" cy="6" r="2" fill="currentColor"/></symbol>
+    </defs>
+  </svg>
+
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="#inicio" class="brand">
+        <svg class="icon"><use href="#i-chip"/></svg>
+        <span>Encoder Digital</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks">☰</button>
+      <nav id="navLinks" class="nav-links" aria-label="Secciones">
+        <a href="#concepto">Concepto</a>
+        <a href="#funcionamiento">Funcionamiento</a>
+        <a href="#es">Entradas y salidas</a>
+        <a href="#simulador">Simulador</a>
+        <a href="#tabla">Tabla de verdad</a>
+        <a href="#aplicaciones">Aplicaciones</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- PORTADA -->
+    <section id="inicio" class="hero">
+      <div class="container hero-inner">
+        <div class="hero-text">
+          <span class="chip-label"><svg class="icon sm"><use href="#i-gate"/></svg> Arquitectura y organización de computadoras</span>
+          <h1>Encoder Digital Interactivo</h1>
+          <p class="lead">Aprende cómo un codificador digital convierte una línea activa en un código binario. Esta página explica el concepto, muestra su tabla de verdad y te permite experimentar con un <strong>encoder de prioridad de 4 entradas y 2 salidas</strong>, un modelo didáctico para comprender los codificadores.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#simulador">Probar el simulador</a>
+            <a class="btn btn-ghost" href="#concepto">Leer el concepto</a>
+          </div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="float-card c1"><svg class="icon"><use href="#i-chip"/></svg><span>E3 E2 E1 E0</span></div>
+          <div class="float-card c2"><svg class="icon"><use href="#i-bits"/></svg><span>S1 S0 = 11</span></div>
+          <div class="float-card c3"><svg class="icon"><use href="#i-bolt"/></svg><span>V = 1</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3.1 CONCEPTO -->
+    <section id="concepto" class="section">
+      <div class="container">
+        <h2 class="section-title"><svg class="icon"><use href="#i-chip"/></svg> ¿Qué es un encoder?</h2>
+        <div class="grid two">
+          <article class="card">
+            <p>Un <strong>encoder</strong> o <strong>codificador digital</strong> es un circuito combinacional que transforma la activación de una entre varias líneas posibles en un <strong>código binario de salida</strong>. Al ser combinacional, sus salidas dependen únicamente de las entradas presentes en ese momento; no almacena estados anteriores.</p>
+            <p>Por ejemplo, un encoder de 4 entradas puede representar cuatro posiciones (0, 1, 2 y 3) usando solamente dos bits de salida, <em>siempre que se cumplan las condiciones de funcionamiento del circuito</em> (en un encoder convencional, que solo una entrada esté activa a la vez).</p>
+          </article>
+          <article class="card card-lila">
+            <h3>Relación entre entradas y bits</h3>
+            <p>Para un encoder binario convencional con <em>N</em> entradas, cuando <em>N</em> es una potencia de dos y se usa codificación binaria ordinaria, el número de bits de salida es:</p>
+            <p class="formula">bits = log<sub>2</sub>(N)</p>
+            <table class="mini-table">
+              <thead><tr><th>Entradas (N)</th><th>Bits de salida</th></tr></thead>
+              <tbody>
+                <tr><td>2</td><td>1</td></tr>
+                <tr><td>4</td><td>2</td></tr>
+                <tr><td>8</td><td>3</td></tr>
+                <tr><td>16</td><td>4</td></tr>
+              </tbody>
+            </table>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3.2 FUNCIONAMIENTO -->
+    <section id="funcionamiento" class="section alt">
+      <div class="container">
+        <h2 class="section-title"><svg class="icon"><use href="#i-gear"/></svg> ¿Cómo funciona?</h2>
+        <ol class="steps">
+          <li class="card step"><span class="step-n">1</span><h3>Se activa una entrada</h3><p>Una de las líneas de entrada (por ejemplo E2) pasa al nivel lógico 1.</p></li>
+          <li class="card step"><span class="step-n">2</span><h3>El circuito la identifica</h3><p>La lógica interna detecta cuál línea está activa.</p></li>
+          <li class="card step"><span class="step-n">3</span><h3>Se determina el código</h3><p>Las compuertas lógicas calculan el número binario asociado a esa entrada.</p></li>
+          <li class="card step"><span class="step-n">4</span><h3>Se presentan las salidas</h3><p>Las salidas S1 y S0 muestran el código resultante (para E2: <code>10</code>).</p></li>
+        </ol>
+        <div class="card card-crema note">
+          <h3>Encoder convencional vs. encoder de prioridad</h3>
+          <p>Un encoder <strong>convencional</strong> presupone que <strong>solo una entrada está activa a la vez</strong>; si hay varias, su salida puede ser incorrecta o ambigua. Un encoder de <strong>prioridad</strong> define de antemano <strong>qué entrada prevalece</strong> cuando varias están activas simultáneamente. En este modelo: <strong>E3 &gt; E2 &gt; E1 &gt; E0</strong>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3.3 ENTRADAS Y SALIDAS -->
+    <section id="es" class="section">
+      <div class="container">
+        <h2 class="section-title"><svg class="icon"><use href="#i-bits"/></svg> Entradas y salidas</h2>
+        <div class="grid two">
+          <article class="card card-azul">
+            <h3>Entradas</h3>
+            <ul class="plain">
+              <li><strong>E0</strong>: prioridad más baja; corresponde al código 00.</li>
+              <li><strong>E1</strong>: corresponde al código 01.</li>
+              <li><strong>E2</strong>: corresponde al código 10.</li>
+              <li><strong>E3</strong>: prioridad más alta; corresponde al código 11.</li>
+            </ul>
+            <h3>Salidas</h3>
+            <ul class="plain">
+              <li><strong>S1</strong>: bit más significativo del código.</li>
+              <li><strong>S0</strong>: bit menos significativo del código.</li>
+              <li><strong>V</strong> (validez): vale 1 si hay al menos una entrada activa y 0 si no hay ninguna.</li>
+            </ul>
+            <p>La salida binaria identifica la entrada activa de <strong>mayor prioridad</strong>. La señal <strong>V</strong> permite distinguir entre “E0 activa” (S1S0 = 00, V = 1) y “ninguna entrada activa” (S1S0 = 00, V = 0), casos que de otro modo producirían el mismo código.</p>
+          </article>
+          <article class="card card-menta">
+            <h3>Tabla de verdad resumida (prioridad E3 &gt; E2 &gt; E1 &gt; E0)</h3>
+            <div class="table-wrap">
+              <table class="truth small">
+                <thead><tr><th>E3</th><th>E2</th><th>E1</th><th>E0</th><th>S1</th><th>S0</th><th>V</th></tr></thead>
+                <tbody>
+                  <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                  <tr><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+                  <tr><td>0</td><td>0</td><td>1</td><td>X</td><td>0</td><td>1</td><td>1</td></tr>
+                  <tr><td>0</td><td>1</td><td>X</td><td>X</td><td>1</td><td>0</td><td>1</td></tr>
+                  <tr><td>1</td><td>X</td><td>X</td><td>X</td><td>1</td><td>1</td><td>1</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="muted">X = “no importa” (puede valer 0 o 1). Con V = 0 el código de salida 00 <strong>no</strong> debe interpretarse como una selección de E0. La tabla completa de 16 combinaciones aparece más abajo.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. SIMULADOR -->
+    <section id="simulador" class="section alt">
+      <div class="container">
+        <h2 class="section-title"><svg class="icon"><use href="#i-bolt"/></svg> Prueba el Encoder</h2>
+        <p class="section-intro">Activa o desactiva las entradas. Puedes activar varias a la vez para observar cómo se resuelve la prioridad. Todo se actualiza al instante.</p>
+
+        <div class="sim card">
+          <div class="sim-inputs" role="group" aria-label="Entradas del encoder">
+            <h3>Entradas</h3>
+            <div class="switches">
+              <button type="button" class="switch" id="sw0" role="switch" aria-checked="false" data-i="0"><span class="sw-name">E0</span><span class="sw-state">Inactiva</span></button>
+              <button type="button" class="switch" id="sw1" role="switch" aria-checked="false" data-i="1"><span class="sw-name">E1</span><span class="sw-state">Inactiva</span></button>
+              <button type="button" class="switch" id="sw2" role="switch" aria-checked="false" data-i="2"><span class="sw-name">E2</span><span class="sw-state">Inactiva</span></button>
+              <button type="button" class="switch" id="sw3" role="switch" aria-checked="false" data-i="3"><span class="sw-name">E3</span><span class="sw-state">Inactiva</span></button>
+            </div>
+            <div class="legend" aria-hidden="true">
+              <span><i class="dot d-off"></i> Inactiva</span>
+              <span><i class="dot d-on"></i> Activa</span>
+              <span><i class="dot d-win"></i> Gana la prioridad</span>
+            </div>
+          </div>
+
+          <div class="sim-diagram">
+            <svg id="diagram" viewBox="0 0 520 250" role="img" aria-label="Diagrama del encoder con cuatro entradas y salidas S1, S0 y V">
+              <text x="10" y="14" class="svg-note">Mayor prioridad ↑</text>
+              <g id="wires">
+                <line id="wi3" class="wire" x1="60" y1="45" x2="200" y2="45"/>
+                <line id="wi2" class="wire" x1="60" y1="95" x2="200" y2="95"/>
+                <line id="wi1" class="wire" x1="60" y1="145" x2="200" y2="145"/>
+                <line id="wi0" class="wire" x1="60" y1="195" x2="200" y2="195"/>
+                <line id="wo1" class="wire" x1="320" y1="75" x2="440" y2="75"/>
+                <line id="wo0" class="wire" x1="320" y1="125" x2="440" y2="125"/>
+                <line id="wov" class="wire" x1="320" y1="185" x2="440" y2="185"/>
+              </g>
+              <g id="inNodes">
+                <circle id="ni3" class="node" cx="60" cy="45" r="9"/><text x="10" y="50" class="svg-label">E3</text>
+                <circle id="ni2" class="node" cx="60" cy="95" r="9"/><text x="10" y="100" class="svg-label">E2</text>
+                <circle id="ni1" class="node" cx="60" cy="145" r="9"/><text x="10" y="150" class="svg-label">E1</text>
+                <circle id="ni0" class="node" cx="60" cy="195" r="9"/><text x="10" y="200" class="svg-label">E0</text>
+              </g>
+              <rect class="box" x="200" y="25" width="120" height="190" rx="16"/>
+              <text x="260" y="112" class="svg-box" text-anchor="middle">ENCODER</text>
+              <text x="260" y="132" class="svg-box small" text-anchor="middle">de prioridad</text>
+              <text x="260" y="152" class="svg-box small" text-anchor="middle">4 → 2</text>
+              <g id="outNodes">
+                <circle id="no1" class="node" cx="440" cy="75" r="9"/><text x="462" y="80" class="svg-label">S1</text>
+                <circle id="no0" class="node" cx="440" cy="125" r="9"/><text x="462" y="130" class="svg-label">S0</text>
+                <circle id="nov" class="node" cx="440" cy="185" r="9"/><text x="462" y="190" class="svg-label">V</text>
+              </g>
+            </svg>
+          </div>
+
+          <div class="sim-outputs" aria-live="polite">
+            <h3>Salidas</h3>
+            <div class="outs">
+              <div class="out" id="outS1"><span class="out-name">S1</span><span class="out-val" id="valS1">0</span></div>
+              <div class="out" id="outS0"><span class="out-name">S0</span><span class="out-val" id="valS0">0</span></div>
+              <div class="out" id="outV"><span class="out-name">V</span><span class="out-val" id="valV">0</span></div>
+            </div>
+            <div class="result-box">
+              <div><span class="label">Código binario (S1S0)</span><strong id="codeText" class="code">—</strong></div>
+              <div><span class="label">Entrada seleccionada</span><strong id="selText">Sin entrada válida</strong></div>
+            </div>
+            <p id="priorityMsg" class="priority-msg" hidden></p>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button type="button" class="btn btn-ghost" id="btnClear">Limpiar entradas</button>
+          <button type="button" class="btn btn-soft" id="btnE0" data-only="0">Activar E0</button>
+          <button type="button" class="btn btn-soft" id="btnE1" data-only="1">Activar E1</button>
+          <button type="button" class="btn btn-soft" id="btnE2" data-only="2">Activar E2</button>
+          <button type="button" class="btn btn-soft" id="btnE3" data-only="3">Activar E3</button>
+          <button type="button" class="btn btn-primary" id="btnExample">Ejemplo de prioridad</button>
+        </div>
+        <p class="muted center">Los botones “Activar Ex” dejan activa <em>únicamente</em> esa entrada. “Ejemplo de prioridad” activa varias entradas a la vez y cambia de ejemplo cada vez que lo presionas.</p>
+
+        <!-- 5. EXPLICACIÓN -->
+        <div class="card card-crema explain" aria-live="polite">
+          <h3>¿Qué está pasando?</h3>
+          <p id="explainText">No hay entradas activas.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. TABLA DE VERDAD -->
+    <section id="tabla" class="section">
+      <div class="container">
+        <h2 class="section-title"><svg class="icon"><use href="#i-gate"/></svg> Tabla de verdad completa</h2>
+        <p class="section-intro">Las 16 combinaciones posibles de E3 E2 E1 E0, con prioridad <strong>E3 &gt; E2 &gt; E1 &gt; E0</strong>. La fila marcada con borde es la que corresponde al estado actual del simulador. Haz clic en cualquier fila para cargar esa combinación en el simulador.</p>
+        <div class="table-tools">
+          <button type="button" class="btn btn-soft is-active" id="fAll" aria-pressed="true">Todas (16)</button>
+          <button type="button" class="btn btn-soft" id="fMulti" aria-pressed="false">Solo con varias entradas activas</button>
+          <span class="legend-inline"><i class="dot d-multi"></i> Varias entradas activas (se aplica prioridad)</span>
+        </div>
+        <div class="card table-card">
+          <div class="table-wrap">
+            <table class="truth" id="truthTable">
+              <thead>
+                <tr><th>#</th><th>E3</th><th>E2</th><th>E1</th><th>E0</th><th>S1</th><th>S0</th><th>V</th><th>Entrada seleccionada</th><th>Observación</th></tr>
+              </thead>
+              <tbody id="truthBody"></tbody>
+            </table>
+          </div>
+          <p class="muted">Cuando V = 0, el valor S1S0 = 00 es solo el estado de reposo de las salidas y <strong>no</strong> significa que E0 esté activa.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3.4 APLICACIONES + 3.5 VENTAJAS -->
+    <section id="aplicaciones" class="section alt">
+      <div class="container">
+        <h2 class="section-title"><svg class="icon"><use href="#i-link"/></svg> Aplicaciones</h2>
+        <div class="grid four">
+          <article class="card card-rosa"><svg class="icon lg"><use href="#i-interrupt"/></svg><h3>Prioridad e interrupciones</h3><p>Cuando varios dispositivos solicitan atención al procesador, un circuito de prioridad decide cuál se atiende primero y entrega su identificador en binario.</p></article>
+          <article class="card card-azul"><svg class="icon lg"><use href="#i-keyboard"/></svg><h3>Teclados y paneles</h3><p>Algunos diseños emplean matrices de teclas y circuitos de codificación específicos para convertir la tecla presionada en un código. No todos los teclados funcionan igual.</p></article>
+          <article class="card card-menta"><svg class="icon lg"><use href="#i-gear"/></svg><h3>Control digital</h3><p>En sistemas de control se codifican estados, sensores o selecciones para que la lógica posterior trabaje con pocas líneas en vez de muchas.</p></article>
+          <article class="card card-lila"><svg class="icon lg"><use href="#i-link"/></svg><h3>Interfaces entre dispositivos</h3><p>Reducir muchas señales a un código compacto puede simplificar conexiones entre módulos. Cada interfaz real define su propio formato; no existe uno único.</p></article>
+        </div>
+
+        <h2 class="section-title mt"><svg class="icon"><use href="#i-bits"/></svg> Ventajas y limitaciones</h2>
+        <div class="grid two">
+          <article class="card card-menta">
+            <h3>Ventajas</h3>
+            <ul class="plain">
+              <li>Reduce la cantidad de líneas necesarias: 4 entradas se representan con 2 bits.</li>
+              <li>La codificación binaria es la forma natural de trabajo de los sistemas digitales.</li>
+              <li>El encoder de prioridad resuelve de forma determinista qué entrada atender.</li>
+            </ul>
+          </article>
+          <article class="card card-rosa">
+            <h3>Limitaciones</h3>
+            <ul class="plain">
+              <li>Un encoder convencional falla si se activan varias entradas a la vez; hay que resolver ese caso (por ejemplo, con prioridad).</li>
+              <li>Sin una señal de validez V no se distingue “E0 activa” de “ninguna activa”.</li>
+              <li>Las entradas de menor prioridad quedan ocultas cuando una mayor está activa.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p><strong>Encoder Digital Interactivo</strong> · Proyecto académico de Arquitectura y Organización de Computadoras.</p>
+      <p class="muted">Modelo didáctico de un encoder de prioridad de 4 entradas y 2 salidas. Si la asignatura define el encoder de otra forma, el proyecto debe ajustarse a esa definición.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
